@@ -1,5 +1,9 @@
 (defcfg
     process-unmapped-keys yes
+    macos-dev-names-include (
+        "Apple Internal Keyboard / Trackpad"
+        "Kinesis Adv360"
+    )
 )
 
 (defsrc
@@ -15,10 +19,10 @@
     s (tap-hold 200 200 s lmet)
     d (tap-hold 200 200 d lctl)
     f (tap-hold 200 200 f lsft)
-    ; (tap-hold 200 200 a lalt)
-    l (tap-hold 200 200 s lmet)
-    k (tap-hold 200 200 d lctl)
-    j (tap-hold 200 200 f lsft)
+    ; (tap-hold 200 200 ; lalt)
+    l (tap-hold 200 200 l lmet)
+    k (tap-hold 200 200 k lctl)
+    j (tap-hold 200 200 j lsft)
 )
 
 (deflayer base
