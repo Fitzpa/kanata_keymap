@@ -1,0 +1,30 @@
+(defcfg
+    process-unmapped-keys yes
+)
+
+(defsrc
+    esc 1 2 3 4 5 6 7 8 9 0 - = bspc
+    tab q w e r t y u i o p [ ] \
+    caps a s d f g h j k l ; ' ret
+    lsft z x c v b n m , . / rsft
+    lctl lalt lmet spc rmet ralt rctl
+)
+
+(defalias
+    a (tap-hold 200 200 a lalt)
+    s (tap-hold 200 200 s lctl)
+    d (tap-hold 200 200 d lmet)
+    f (tap-hold 200 200 f lsft)
+    ; (tap-hold 200 200 ; lalt)
+    l (tap-hold 200 200 l lctl)
+    k (tap-hold 200 200 k lmet)
+    j (tap-hold 200 200 j lsft)
+)
+
+(deflayer base
+    esc 1 2 3 4 5 6 7 8 9 0 - = bspc
+    tab q w e r t y u i o p [ ] \
+    caps @a @s @d @f g h @j @k @l @; ' ret
+    lsft z x c v b n m , . / rsft
+    lctl lalt lmet spc rmet ralt rctl
+)
