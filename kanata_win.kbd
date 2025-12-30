@@ -7,18 +7,18 @@
     tab q w e r t y u i o p [ ] \
     caps a s d f g h j k l ; ' ret
     lsft z x c v b n m , . / rsft
-    lctl lalt lmet spc rmet ralt rctl
+    lctl lalt lmet spc rmet ralt rctl pgdn
 )
 
 (defalias
-    a (tap-hold 200 200 a lalt)
-    s (tap-hold 200 200 s lctl)
-    d (tap-hold 200 200 d lmet)
-    f (tap-hold 200 200 f lsft)
-    ; (tap-hold 200 200 ; lalt)
-    l (tap-hold 200 200 l lctl)
-    k (tap-hold 200 200 k lmet)
-    j (tap-hold 200 200 j lsft)
+    a (tap-hold-release 200 200 a lalt)
+    s (tap-hold-release 200 200 s lctl)
+    d (tap-hold-release 200 200 d lmet)
+    f (tap-hold-release 200 200 f lsft)
+    ; (tap-hold-release 200 200 ; lalt)
+    l (tap-hold-release 200 200 l lctl)
+    k (tap-hold-release 200 200 k lmet)
+    j (tap-hold-release 200 200 j lsft)
 )
 
 (deflayer base
@@ -26,5 +26,5 @@
     tab q w e r t y u i o p [ ] \
     caps @a @s @d @f g h @j @k @l @; ' ret
     lsft z x c v b n m , . / rsft
-    lctl lalt lmet spc rmet ralt rctl
+    lctl lalt lmet spc rmet ralt rctl C-b
 )
