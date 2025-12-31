@@ -11,19 +11,20 @@
     tab q w e r t y u i o p [ ] \
     caps a s d f g h j k l ; ' ret
     lsft z x c v b n m , . / rsft
-    lctl lalt lmet spc rmet ralt rctl pgdn
-)
+    lctl lalt lmet spc rmet ralt rctl pgdn end)
 
 (defalias
-    a (tap-hold-release 300 200 a lalt)
-    s (tap-hold-release 300 200 s lmet)
-    d (tap-hold-release 250 200 d lctl)
-    f (tap-hold-release 200 200 f lsft)
-    ; (tap-hold-release 300 200 ; lalt)
-    l (tap-hold-release 300 200 l lmet)
-    k (tap-hold-release 250 200 k lctl)
-    j (tap-hold-release 200 200 j lsft)
+    a (tap-hold 300 200 a lalt)
+    s (tap-hold 300 200 s lmet)
+    d (tap-hold 250 200 d lctl)
+    f (tap-hold 200 200 f lsft)
+    ; (tap-hold 300 200 ; lalt)
+    l (tap-hold 300 200 l lmet)
+    k (tap-hold 250 200 k lctl)
+    j (tap-hold 200 200 j lsft)
     esc (tap-hold-release 200 200 esc caps)
+    pgdn-mod (tap-hold 200 200 C-b (layer-toggle symbols))
+    end-mod (tap-hold 200 200 C-b (layer-toggle symbols))
 )
 
 (deflayer base
@@ -31,5 +32,13 @@
     tab q w e r t y u i o p [ ] \
     caps @a @s @d @f g h @j @k @l @; ' ret
     lsft z x c v b n m , . / rsft
-    lctl lalt lmet spc rmet ralt rctl C-b
+    lctl lalt lmet spc rmet ralt rctl @pgdn-mod @end-mod
+)
+
+(deflayer symbols
+    _    _    _    _    _    _    _    _    _    _    _    _    _    _
+    _    S-[  [    S-9  =    -    S-0  ]    S-]  _    _    _    _    _
+    _    _    _    _    _    _    _    _    _    _    _    _    _
+    _    _    _    _    _    _    _    _    _    _    _    _
+    _    _    _    _    _    _    _    _    _
 )
