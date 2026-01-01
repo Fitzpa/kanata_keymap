@@ -163,15 +163,15 @@
   l (t! charmod 9 lmet)
   ; (t! charmod 0 lalt)
   z (t! charmod lsgt lctl)
-  x (chord fbl x)
-  c (chord fbl c)
-  v =
-  b f11
-  n f12
-  m '
-  , (chord fbr ,)
-  . (chord fbr .)
-  / (t! charmod \ lctl)
+  x S-9
+  c S-[
+  v [
+  b =
+  n -
+  m ]
+  , S-]
+  . S-0
+  / \
   pgdn (t! charmod pgdn C-b)
   end (t! charmod end C-b)
 )
