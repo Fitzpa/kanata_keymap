@@ -1,10 +1,6 @@
 (defcfg
 ;; You can set the value below to no if you only use the keys defined in defsrc.
     process-unmapped-keys yes
-    macos-dev-names-include (
-        "Apple Internal Keyboard / Trackpad"
-        "Kinesis Adv360"
-    )
 )
 
 (defsrc
@@ -65,12 +61,12 @@
   i (chord mtr i)
   o (chord mtr o)
   a (t! charmod a lalt)
-  s (t! charmod s lmet)
-  d (t! charmod d lctl)
+  s (t! charmod s lctl)
+  d (t! charmod d lmet)
   f (t! charmod f lsft)
   j (t! charmod j lsft)
-  k (t! charmod k lctl)
-  l (t! charmod l lmet)
+  k (t! charmod k lmet)
+  l (t! charmod l lctl)
   ; (t! charmod ; lalt)
   ret (t! charmod ret rsft)
   z (t! charmod z lctl)
