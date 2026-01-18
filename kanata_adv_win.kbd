@@ -66,9 +66,11 @@
 )
 
 (defchords mtr $chord-timeout
-  (i  ) i
-  (  o) o
-  (i o) bspc
+  (u    ) u
+  (  i  ) i
+  (    o) o
+  (u i  ) S--
+  (  i o) bspc
 )
 
 (defchords mbl $chord-timeout
@@ -80,17 +82,20 @@
 )
 
 (defchords mbr $chord-timeout
-  (,    ) ,
-  (  .  ) .
-  (    /) /
-  (, .  ) ret
-  (  . /) S-/
+  (m      ) (t! charmod m (layer-while-held fumbol))
+  (  ,    ) ,
+  (    .  ) .
+  (      /) /
+  (m ,    ) -
+  (  , .  ) ret
+  (    . /) S-/
 )
 
 (deflayermap (main)
   esc (t! charmod esc caps)
   w (chord mtl w)
   e (chord mtl e)
+  u (chord mtr u)
   i (chord mtr i)
   o (chord mtr o)
 
@@ -109,7 +114,7 @@
   x (chord mbl x)
   c (chord mbl c)
   v (t! charmod v (layer-while-held fumbol))
-  m (t! charmod m (layer-while-held fumbol))
+  m (chord mbr m)
   , (chord mbr ,)
   . (chord mbr .)
   / (chord mbr /)
@@ -158,9 +163,11 @@
 )
 
 (defchords ftr $chord-timeout
-  (i  ) f8
-  (  o) f9
-  (i o) bspc
+  (u    ) f7
+  (  i  ) f8
+  (    o) f9
+  (u i  ) S--
+  (  i o) bspc
 )
 
 (defchords fbl $chord-timeout
@@ -170,9 +177,11 @@
 )
 
 (defchords fbr $chord-timeout
-  (n  ) -
-  (  m) ]
-  (n m) S--
+  (n      ) -
+  (  m    ) ]
+  (    ,  ) S-]
+  (n m    ) S--
+  (  m ,  ) -
 )
 
 (deflayermap (fumbol)
@@ -183,7 +192,7 @@
   r f4
   t f5
   y f6
-  u f7
+  u (chord ftr u)
   i (chord ftr i)
   o (chord ftr o)
   p f10
@@ -205,7 +214,7 @@
   b (chord fbl b)
   n (chord fbr n)
   m (chord fbr m)
-  , S-]
+  , (chord fbr ,)
   . S-0
   / \
   pgdn (t! charmod pgdn C-b)
