@@ -135,7 +135,7 @@
 
 (defchords fbr $chord-timeout
   (n  ) -
-  (  m) m
+  (  m) ]
   (n m) S--
 )
 
