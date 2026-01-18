@@ -14,7 +14,7 @@
   streak-count 3
   streak-time 325
   tap-timeout 200
-  hold-timeout 300
+  hold-timeout 400
   chord-timeout 50
 )
 
@@ -49,9 +49,11 @@
 )
 
 (defchords mbr $chord-timeout
-  (,  ) ,
-  (  .) (t! charmod . ralt)
-  (, .) ret
+  (,    ) ,
+  (  .  ) (t! charmod . ralt)
+  (    /) (t! charmod / rctl)
+  (, .  ) ret
+  (  . /) S-/
 )
 
 (deflayermap (main)
@@ -62,10 +64,8 @@
   o (chord mtr o)
   a (t! charmod a lalt)
   s (t! charmod s lctl)
-  d (t! charmod d lmet)
   f (t! charmod f lsft)
   j (t! charmod j lsft)
-  k (t! charmod k lmet)
   l (t! charmod l lctl)
   ; (t! charmod ; lalt)
   ret (t! charmod ret rsft)
@@ -76,7 +76,7 @@
   m (t! charmod m (layer-while-held fumbol))
   , (chord mbr ,)
   . (chord mbr .)
-  / (t! charmod / rctl)
+  / (chord mbr /)
   pgdn (t! charmod pgdn C-b)
   end (t! charmod end C-b)
   spc (t! charmod spc (multi (layer-switch extend) (on-release tap-virtualkey clear)))
