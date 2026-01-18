@@ -60,9 +60,11 @@
 )
 
 (defchords mtl $chord-timeout
-  (w  ) w
-  (  e) e
-  (w e) esc
+  (w    ) w
+  (  e  ) e
+  (    r) r
+  (w e  ) esc
+  (  e r) S-=
 )
 
 (defchords mtr $chord-timeout
@@ -76,11 +78,13 @@
 )
 
 (defchords mbl $chord-timeout
-  (z    ) z
-  (z x  ) C-z
-  (  x  ) x
-  (    c) c
-  (  x c) tab
+  (z      ) z
+  (z x    ) C-z
+  (  x    ) x
+  (    c  ) c
+  (      v) (t! charmod v (layer-while-held fumbol))
+  (  x c  ) tab
+  (    c v) =
 )
 
 (defchords mbr $chord-timeout
@@ -97,6 +101,7 @@
   esc (t! charmod esc caps)
   w (chord mtl w)
   e (chord mtl e)
+  r (chord mtl r)
   u (chord mtr u)
   i (chord mtr i)
   o (chord mtr o)
@@ -116,7 +121,7 @@
   z (chord mbl z)
   x (chord mbl x)
   c (chord mbl c)
-  v (t! charmod v (layer-while-held fumbol))
+  v (chord mbl v)
   m (chord mbr m)
   , (chord mbr ,)
   . (chord mbr .)
@@ -160,9 +165,11 @@
 )
 
 (defchords ftl $chord-timeout
-  (w  ) f2
-  (  e) f3
-  (w e) esc
+  (w    ) f2
+  (  e  ) f3
+  (    r) f4
+  (w e  ) esc
+  (  e r) S-=
 )
 
 (defchords ftr $chord-timeout
@@ -176,9 +183,11 @@
 )
 
 (defchords fbl $chord-timeout
-  (v  ) [
-  (  b) =
-  (v b) S-=
+  (c    ) S-[
+  (  v  ) [
+  (    b) =
+  (c v  ) =
+  (  v b) S-=
 )
 
 (defchords fbr $chord-timeout
@@ -194,7 +203,7 @@
   q f1
   w (chord ftl w)
   e (chord ftl e)
-  r f4
+  r (chord ftl r)
   t f5
   y f6
   u (chord ftr u)
@@ -214,7 +223,7 @@
   ret (t! charmod ret rshift)
   z (t! charmod lsgt lctl)
   x S-9
-  c S-[
+  c (chord fbl c)
   v (chord fbl v)
   b (chord fbl b)
   n (chord fbr n)
