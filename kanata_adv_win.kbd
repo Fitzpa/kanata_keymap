@@ -66,11 +66,13 @@
 )
 
 (defchords mtr $chord-timeout
-  (u    ) u
-  (  i  ) i
-  (    o) o
-  (u i  ) S--
-  (  i o) bspc
+  (u      ) u
+  (  i    ) i
+  (    o  ) o
+  (      p) p
+  (u i    ) S--
+  (  i o  ) bspc
+  (    o p) del
 )
 
 (defchords mbl $chord-timeout
@@ -98,6 +100,7 @@
   u (chord mtr u)
   i (chord mtr i)
   o (chord mtr o)
+  p (chord mtr p)
 
   ;; Home-row mods (Option B) - protected from normal typing overlaps
   a (t! charmod_safe a lalt)
@@ -163,11 +166,13 @@
 )
 
 (defchords ftr $chord-timeout
-  (u    ) f7
-  (  i  ) f8
-  (    o) f9
-  (u i  ) S--
-  (  i o) bspc
+  (u      ) f7
+  (  i    ) f8
+  (    o  ) f9
+  (      p) f10
+  (u i    ) S--
+  (  i o  ) bspc
+  (    o p) del
 )
 
 (defchords fbl $chord-timeout
@@ -195,7 +200,7 @@
   u (chord ftr u)
   i (chord ftr i)
   o (chord ftr o)
-  p f10
+  p (chord ftr p)
   a (t! charmod 1 lalt)
   s (t! charmod 2 lmet)
   d (t! charmod 3 lctl)
