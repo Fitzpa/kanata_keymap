@@ -25,6 +25,11 @@
 
 )
 
+(defalias
+  f-td (tap-dance 200 (f C-c C-x))
+  j-td (tap-dance 200 (j C-v))
+)
+
 (deftemplate charmod (char mod)
   (switch
     ((key-timing $streak-count less-than $streak-time)) $char break
@@ -114,8 +119,8 @@
   ; (t! charmod_safe ; lalt)
 
   ;; Shift keys - responsive
-  f (t! charshift f lsft)
-  j (t! charshift j lsft)
+  f (t! charshift @f-td lsft)
+  j (t! charshift @j-td lsft)
   ret (t! charshift ret rsft)
 
   z (chord mbl z)
