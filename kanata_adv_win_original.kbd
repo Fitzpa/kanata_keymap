@@ -16,43 +16,16 @@
   tap-timeout 200
   hold-timeout 400
   chord-timeout 50
-
-  ;; If any of these are pressed while a home-row Ctrl/Alt key is waiting to
-  ;; decide tap vs hold, we ALWAYS force the tap (Option B).
-  typing-keys (q w e r t y u i o p
-               a s d f g h j k l ;
-               z x c v b n m , . /)
-
 )
 
 (deftemplate charmod (char mod)
   (switch
     ((key-timing $streak-count less-than $streak-time)) $char break
-    () (tap-hold-release-timeout $tap-timeout $hold-timeout $char $mod $char reset-timeout-on-press) break
-  )
-)
-
-;; OPTION B: home-row Ctrl/Alt that will NEVER engage if you press a typing key
-;; (letters/punctuation) while it is pending.
-;;
-;; Uses tap-hold-except-keys (5 params):
-;;   - If a key in $typing-keys is pressed while pending => force tap.
-;;   - Otherwise: hold activates only after full $hold-timeout (no early hold).
-(deftemplate charmod_safe (char mod)
-  (switch
-    ((key-timing $streak-count less-than $streak-time)) $char break
-    () (tap-hold-except-keys $tap-timeout $hold-timeout $char $mod $typing-keys) break
-  )
-)
-
-;; Keep Shift responsive (press-based) since accidental Shift is much less
-;; destructive than accidental Ctrl/Alt, and you wanted immediate chord behavior.
-(deftemplate charshift (char mod)
-  (switch
-    ((key-timing $streak-count less-than $streak-time)) $char break
     () (tap-hold-press-timeout $tap-timeout $hold-timeout $char $mod $char) break
   )
 )
+
+
 
 (defvirtualkeys
   shift (multi (layer-switch main) lsft)
@@ -72,17 +45,15 @@
 )
 
 (defchords mbl $chord-timeout
-  (z    ) z
-  (z x  ) C-z
-  (  x  ) x
-  (    c) c
-  (  x c) tab
+  (x  ) (t! charmod x ralt)
+  (  c) c
+  (x c) tab
 )
 
 (defchords mbr $chord-timeout
   (,    ) ,
-  (  .  ) .
-  (    /) /
+  (  .  ) (t! charmod . ralt)
+  (    /) (t! charmod / rctl)
   (, .  ) ret
   (  . /) S-/
 )
@@ -93,19 +64,14 @@
   e (chord mtl e)
   i (chord mtr i)
   o (chord mtr o)
-
-  ;; Home-row mods (Option B) - protected from normal typing overlaps
-  a (t! charmod_safe a lalt)
-  s (t! charmod_safe s lctl)
-  l (t! charmod_safe l lctl)
-  ; (t! charmod_safe ; lalt)
-
-  ;; Shift keys - responsive
-  f (t! charshift f lsft)
-  j (t! charshift j lsft)
-  ret (t! charshift ret rsft)
-
-  z (chord mbl z)
+  a (t! charmod a lalt)
+  s (t! charmod s lctl)
+  f (t! charmod f lsft)
+  j (t! charmod j lsft)
+  l (t! charmod l lctl)
+  ; (t! charmod ; lalt)
+  ret (t! charmod ret rsft)
+  z (t! charmod z lctl)
   x (chord mbl x)
   c (chord mbl c)
   v (t! charmod v (layer-while-held fumbol))
@@ -137,7 +103,7 @@
   k down
   l rght
   ; pgdn
-  ret (t! charshift ret rsft)
+  ret (t! charmod ret rsft)
   z mute
   x vold
   c volu
