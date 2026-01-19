@@ -25,10 +25,7 @@
 
 )
 
-(defalias
-  f-td (tap-dance 200 (f C-c C-x))
-  j-td (tap-dance 200 (j C-v))
-)
+
 
 (deftemplate charmod (char mod)
   (switch
@@ -92,6 +89,20 @@
   (    c v) =
 )
 
+(defchords mml $chord-timeout
+  (s      ) (t! charmod_safe s lctl)
+  (  d    ) d
+  (    f  ) (t! charshift f lsft)
+  (s d    ) C-x
+  (  d f  ) C-c
+)
+
+(defchords mmr $chord-timeout
+  (j      ) (t! charshift j lsft)
+  (  k    ) k
+  (j k    ) C-v
+)
+
 (defchords mbr $chord-timeout
   (m      ) (t! charmod m (layer-while-held fumbol))
   (  ,    ) ,
@@ -114,13 +125,15 @@
 
   ;; Home-row mods (Option B) - protected from normal typing overlaps
   a (t! charmod_safe a lalt)
-  s (t! charmod_safe s lctl)
+  s (chord mml s)
+  d (chord mml d)
   l (t! charmod_safe l lctl)
   ; (t! charmod_safe ; lalt)
 
   ;; Shift keys - responsive
-  f (t! charshift @f-td lsft)
-  j (t! charshift @j-td lsft)
+  f (chord mml f)
+  j (chord mmr j)
+  k (chord mmr k)
   ret (t! charshift ret rsft)
 
   z (chord mbl z)
