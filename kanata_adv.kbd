@@ -18,14 +18,45 @@
   streak-count 3
   streak-time 325
   tap-timeout 200
-  hold-timeout 300
+  hold-timeout 400
   chord-timeout 50
+
+  ;; If any of these are pressed while a home-row Ctrl/Alt key is waiting to
+  ;; decide tap vs hold, we ALWAYS force the tap (Option B).
+  typing-keys (q w e r t y u i o p
+               a s d f g h j k l ;
+               z x c v b n m , . /)
+
 )
+
+
 
 (deftemplate charmod (char mod)
   (switch
     ((key-timing $streak-count less-than $streak-time)) $char break
     () (tap-hold-release-timeout $tap-timeout $hold-timeout $char $mod $char reset-timeout-on-press) break
+  )
+)
+
+;; OPTION B: home-row Ctrl/Alt that will NEVER engage if you press a typing key
+;; (letters/punctuation) while it is pending.
+;;
+;; Uses tap-hold-except-keys (5 params):
+;;   - If a key in $typing-keys is pressed while pending => force tap.
+;;   - Otherwise: hold activates only after full $hold-timeout (no early hold).
+(deftemplate charmod_safe (char mod)
+  (switch
+    ((key-timing $streak-count less-than $streak-time)) $char break
+    () (tap-hold-except-keys $tap-timeout $hold-timeout $char $mod $typing-keys) break
+  )
+)
+
+;; Keep Shift responsive (press-based) since accidental Shift is much less
+;; destructive than accidental Ctrl/Alt, and you wanted immediate chord behavior.
+(deftemplate charshift (char mod)
+  (switch
+    ((key-timing $streak-count less-than $streak-time)) $char break
+    () (tap-hold-press-timeout $tap-timeout $hold-timeout $char $mod $char) break
   )
 )
 
@@ -35,52 +66,88 @@
 )
 
 (defchords mtl $chord-timeout
-  (w  ) w
-  (  e) e
-  (w e) esc
+  (w    ) w
+  (  e  ) e
+  (    r) r
+  (w e  ) esc
+  (  e r) S-=
 )
 
 (defchords mtr $chord-timeout
-  (i  ) i
-  (  o) o
-  (i o) bspc
+  (u      ) u
+  (  i    ) i
+  (    o  ) o
+  (      p) p
+  (u i    ) S--
+  (  i o  ) bspc
+  (    o p) del
 )
 
 (defchords mbl $chord-timeout
-  (x  ) (t! charmod x ralt)
-  (  c) c
-  (x c) tab
+  (z      ) z
+  (z x    ) C-z
+  (  x    ) x
+  (    c  ) c
+  (      v) (t! charmod v (layer-while-held fumbol))
+  (  x c  ) tab
+  (    c v) =
+)
+
+(defchords mml $chord-timeout
+  (s      ) (t! charmod_safe s lctl)
+  (  d    ) d
+  (    f  ) (t! charshift f lsft)
+  (s d    ) C-x
+  (  d f  ) C-c
+)
+
+(defchords mmr $chord-timeout
+  (j      ) (t! charshift j lsft)
+  (  k    ) k
+  (j k    ) C-v
 )
 
 (defchords mbr $chord-timeout
-  (,  ) ,
-  (  .) (t! charmod . ralt)
-  (, .) ret
+  (m      ) (t! charmod m (layer-while-held fumbol))
+  (  ,    ) ,
+  (    .  ) .
+  (      /) /
+  (m ,    ) -
+  (  , .  ) ret
+  (    . /) S-/
 )
 
 (deflayermap (main)
   esc (t! charmod esc caps)
   w (chord mtl w)
   e (chord mtl e)
+  r (chord mtl r)
+  u (chord mtr u)
   i (chord mtr i)
   o (chord mtr o)
-  a (t! charmod a lalt)
-  s (t! charmod s lmet)
-  d (t! charmod d lctl)
-  f (t! charmod f lsft)
-  j (t! charmod j lsft)
-  k (t! charmod k lctl)
-  l (t! charmod l lmet)
-  ; (t! charmod ; lalt)
-  ret (t! charmod ret rsft)
-  z (t! charmod z lctl)
+  p (chord mtr p)
+
+  ;; Home-row mods (Option B) - protected from normal typing overlaps
+  a (t! charmod_safe a lalt)
+  s (chord mml s)
+  d (chord mml d)
+  l (t! charmod_safe l lctl)
+  ; (t! charmod_safe ; lalt)
+
+  ;; Shift keys - responsive
+  f (chord mml f)
+  j (chord mmr j)
+  k (chord mmr k)
+  ret (t! charshift ret rsft)
+
+  z (chord mbl z)
   x (chord mbl x)
   c (chord mbl c)
-  v (t! charmod v (layer-while-held fumbol))
-  m (t! charmod m (layer-while-held fumbol))
+  v (chord mbl v)
+  m (chord mbr m)
   , (chord mbr ,)
   . (chord mbr .)
-  / (t! charmod / rctl)
+  / (chord mbr /)
   pgdn (t! charmod pgdn C-b)
   end (t! charmod end C-b)
   spc (t! charmod spc (multi (layer-switch extend) (on-release tap-virtualkey clear)))
@@ -105,7 +172,7 @@
   k down
   l rght
   ; pgdn
-  ret (t! charmod ret rsft)
+  ret (t! charshift ret rsft)
   z mute
   x vold
   c volu
@@ -120,27 +187,37 @@
 )
 
 (defchords ftl $chord-timeout
-  (w  ) f2
-  (  e) f3
-  (w e) esc
+  (w    ) f2
+  (  e  ) f3
+  (    r) f4
+  (w e  ) esc
+  (  e r) S-=
 )
 
 (defchords ftr $chord-timeout
-  (i  ) f8
-  (  o) f9
-  (i o) bspc
+  (u      ) f7
+  (  i    ) f8
+  (    o  ) f9
+  (      p) f10
+  (u i    ) S--
+  (  i o  ) bspc
+  (    o p) del
 )
 
 (defchords fbl $chord-timeout
-  (v  ) [
-  (  b) =
-  (v b) S-=
+  (c    ) S-[
+  (  v  ) [
+  (    b) =
+  (c v  ) =
+  (  v b) S-=
 )
 
 (defchords fbr $chord-timeout
-  (n  ) -
-  (  m) ]
-  (n m) S--
+  (n      ) -
+  (  m    ) ]
+  (    ,  ) S-]
+  (n m    ) S--
+  (  m ,  ) -
 )
 
 (deflayermap (fumbol)
@@ -148,13 +225,13 @@
   q f1
   w (chord ftl w)
   e (chord ftl e)
-  r f4
+  r (chord ftl r)
   t f5
   y f6
-  u f7
+  u (chord ftr u)
   i (chord ftr i)
   o (chord ftr o)
-  p f10
+  p (chord ftr p)
   a (t! charmod 1 lalt)
   s (t! charmod 2 lmet)
   d (t! charmod 3 lctl)
@@ -168,12 +245,12 @@
   ret (t! charmod ret rshift)
   z (t! charmod lsgt lctl)
   x S-9
-  c S-[
+  c (chord fbl c)
   v (chord fbl v)
   b (chord fbl b)
   n (chord fbr n)
   m (chord fbr m)
-  , S-]
+  , (chord fbr ,)
   . S-0
   / \
   pgdn (t! charmod pgdn C-b)
