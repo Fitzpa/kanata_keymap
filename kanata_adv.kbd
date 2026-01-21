@@ -11,7 +11,7 @@
   esc q w e r t y u i o p
   a s d f g h j k l ; ret
   z x c v b n m , . / pgdn end
-         spc
+  lctl   spc
 )
 
 (defvar
@@ -29,7 +29,9 @@
 
 )
 
-
+(defalias
+  lctl-td (tap-dance $tap-timeout (lctl M-s))
+)
 
 (deftemplate charmod (char mod)
   (switch
@@ -85,7 +87,7 @@
 
 (defchords mbl $chord-timeout
   (z      ) z
-  (z x    ) C-z
+  (z x    ) M-z
   (  x    ) x
   (    c  ) c
   (      v) (t! charmod v (layer-while-held fumbol))
@@ -94,17 +96,17 @@
 )
 
 (defchords mml $chord-timeout
-  (s      ) (t! charmod_safe s lctl)
+  (s      ) s
   (  d    ) d
-  (    f  ) (t! charshift f lsft)
-  (s d    ) C-x
-  (  d f  ) C-c
+  (    f  ) f
+  (s d    ) M-x
+  (  d f  ) M-c
 )
 
 (defchords mmr $chord-timeout
-  (j      ) (t! charshift j lsft)
+  (j      ) j
   (  k    ) k
-  (j k    ) C-v
+  (j k    ) M-v
 )
 
 (defchords mbr $chord-timeout
@@ -118,6 +120,7 @@
 )
 
 (deflayermap (main)
+  lctl @lctl-td
   esc (t! charmod esc caps)
   w (chord mtl w)
   e (chord mtl e)
@@ -128,11 +131,8 @@
   p (chord mtr p)
 
   ;; Home-row mods (Option B) - protected from normal typing overlaps
-  a (t! charmod_safe a lalt)
   s (chord mml s)
   d (chord mml d)
-  l (t! charmod_safe l lctl)
-  ; (t! charmod_safe ; lalt)
 
   ;; Shift keys - responsive
   f (chord mml f)
