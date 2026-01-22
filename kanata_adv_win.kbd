@@ -7,7 +7,7 @@
   esc q w e r t y u i o p
   a s d f g h j k l ; ret
   z x c v b n m , . / pgdn end
-         spc
+  lctl lalt spc
 )
 
 (defvar
@@ -56,6 +56,12 @@
     ((key-timing $streak-count less-than $streak-time)) $char break
     () (tap-hold-press-timeout $tap-timeout $hold-timeout $char $mod $char) break
   )
+)
+
+;; Reuse control tap dance from macOS config for parity
+(defalias
+  lctl-td (tap-dance $tap-timeout (lctl C-s))
+  lalt-td (tap-dance $tap-timeout (lalt C-/))
 )
 
 (defvirtualkeys
@@ -117,6 +123,7 @@
 
 (deflayermap (main)
   lctl @lctl-td
+  lalt @lalt-td
   esc (t! charmod esc caps)
   w (chord mtl w)
   e (chord mtl e)
