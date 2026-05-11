@@ -69,11 +69,10 @@
 )
 
 (defchords mtl $chord-timeout
-  (w    ) w
-  (  e  ) e
-  (    r) r
-  (w e  ) esc
-  (  e r) S-=
+  (w  ) w
+  (  e) e
+  (w e) esc
+  (r  ) r
 )
 
 (defchords mtr $chord-timeout
