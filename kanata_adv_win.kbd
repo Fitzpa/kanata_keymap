@@ -25,10 +25,6 @@
 
 )
 
-(defalias
-  lctl-td (tap-dance $tap-timeout (lctl C-s))
-)
-
 (deftemplate charmod (char mod)
   (switch
     ((key-timing $streak-count less-than $streak-time)) $char break
@@ -58,7 +54,6 @@
   )
 )
 
-;; Reuse control tap dance from macOS config for parity
 (defalias
   lctl-td (tap-dance $tap-timeout (lctl C-s))
   lalt-td (tap-dance $tap-timeout (lalt C-/))
@@ -74,7 +69,6 @@
   (  e  ) e
   (    r) r
   (w e  ) esc
-  (  e r) S-=
 )
 
 (defchords mtr $chord-timeout
@@ -167,7 +161,7 @@
   s lalt
   d lsft
   f lctl
-  g comp
+  g menu
   h esc
   j left
   k down
@@ -192,7 +186,6 @@
   (  e  ) f3
   (    r) f4
   (w e  ) esc
-  (  e r) S-=
 )
 
 (defchords ftr $chord-timeout
