@@ -1,9 +1,9 @@
 (defcfg
 ;; You can set the value below to no if you only use the keys defined in defsrc.
     process-unmapped-keys yes
-    macos-dev-names-include (
-        "Apple Internal Keyboard / Trackpad"
-        "Kinesis Adv360"
+    linux-dev-names-include (
+        "Kinesis Kinesis Adv360 Consumer Control"
+        "Kinesis Kinesis Adv360"
     )
 )
 
@@ -30,8 +30,8 @@
 )
 
 (defalias
-  lctl-td (tap-dance $tap-timeout (lctl M-s))
-  lalt-td (tap-dance $tap-timeout (lalt M-/))
+  lctl-td (tap-dance $tap-timeout (lctl C-s))
+  lalt-td (tap-dance $tap-timeout (lalt C-/))
 )
 
 (deftemplate charmod (char mod)
@@ -63,16 +63,19 @@
   )
 )
 
+;; Reuse control tap dance from macOS config for parity
+
 (defvirtualkeys
   shift (multi (layer-switch main) lsft)
   clear (multi (layer-switch main) (on-press release-virtualkey shift))
 )
 
 (defchords mtl $chord-timeout
-  (w  ) w
-  (  e) e
-  (w e) esc
-  (r  ) r
+  (w    ) w
+  (  e  ) e
+  (    r) r
+  (w e  ) esc
+  (  e r) S-=
 )
 
 (defchords mtr $chord-timeout
@@ -87,7 +90,7 @@
 
 (defchords mbl $chord-timeout
   (z      ) z
-  (z x    ) M-z
+  (z x    ) C-z
   (  x    ) x
   (    c  ) c
   (      v) (t! charmod v (layer-while-held fumbol))
@@ -99,14 +102,14 @@
   (s      ) s
   (  d    ) d
   (    f  ) f
-  (s d    ) M-x
-  (  d f  ) M-c
+  (s d    ) C-x
+  (  d f  ) C-c
 )
 
 (defchords mmr $chord-timeout
   (j      ) j
   (  k    ) k
-  (j k    ) M-v
+  (j k    ) C-v
 )
 
 (defchords mbr $chord-timeout
@@ -131,11 +134,9 @@
   o (chord mtr o)
   p (chord mtr p)
 
-  ;; Home-row mods (Option B) - protected from normal typing overlaps
   s (chord mml s)
   d (chord mml d)
 
-  ;; Shift keys - responsive
   f (chord mml f)
   j (chord mmr j)
   k (chord mmr k)
@@ -167,7 +168,7 @@
   s lalt
   d lsft
   f lctl
-  g comp
+  g menu
   h esc
   j left
   k down
